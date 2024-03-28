@@ -1,0 +1,41 @@
+.notFoundContainer {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    vertical-align:center;
+    width: 100%;
+    height: 80rem;
+}
+
+@media (min-width: 768px) {
+    .notFoundContainer {
+        flex-direction: row;
+    }
+}
+.notFoundContainer_info {
+    text-align: center;
+    padding: 0 2rem;
+    margin: 0 2rem;
+}
+
+.notFoundContainer__init {
+    font-weight: 400;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.notFoundContainer__init:hover {
+    text-decoration-line: underline;
+}
+
+.notFoundContainer__img {
+    padding: 2rem;
+}
+
+@media (min-width: 640px) {
+    .notFoundContainer__img {
+        padding: 0;
+    }
+}

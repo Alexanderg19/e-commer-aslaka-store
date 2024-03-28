@@ -1,0 +1,15 @@
+/* Estilos para la barra de desplazamiento */
+.scrollBar::-webkit-scrollbar {
+	width: 1.2rem; /* Ancho de la barra de desplazamiento */
+}
+
+.scrollBar::-webkit-scrollbar-thumb {
+	border-radius: 5rem; /* Radio de esquina del pulgar */
+	/*border: 0.2rem solid grey;*/
+
+	background: #e0e0e0;
+}
+
+.scrollBar::-webkit-scrollbar-track {
+	border-radius: 5rem;
+}
