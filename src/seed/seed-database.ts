@@ -3,23 +3,23 @@ import prisma from '../lib/prisma';
 
 async function main() {
 
-    
-  // 1. Borrar registros previos
-    await Promise.all([
-        prisma.productImage.deleteMany(),
-        prisma.product.deleteMany(),
-        prisma.category.deleteMany(),
-    ])
 
-    const { categories, products } = initialData    
+    // 1. Borrar registros previos
+    //await Promise.all([
+    await prisma.productImage.deleteMany();
+    await prisma.product.deleteMany();
+    await prisma.category.deleteMany();
+    //])
+
+    const { categories, products } = initialData
 
     console.log(categories);
-    
+
     //Categories
     // {
     //   name: 'Shirt'
     // }
-    const categoriesData = categories.map( name => ({
+    const categoriesData = categories.map(name => ({
         name
     }))
 
@@ -27,27 +27,49 @@ async function main() {
 
     await prisma.category.createMany({
         data: categoriesData
-        
+
     })
-    
+
     /*
         {
             'Shirts': 312134654(id)
         }
     */
-    
+
     const categoriesDB = await prisma.category.findMany()
 
     console.log(categoriesDB);
 
 
-    const categoriesMap = categoriesDB.reduce( (acumulator, category) => {
+    const categoriesMap = categoriesDB.reduce((acumulator, category) => {
         acumulator[category.name.toLowerCase()] = category.id;
         return acumulator;
     }, {} as Record<string, string>)
 
-    console.log(categoriesMap);
-    
+    console.log(categoriesMap['shirts']);
+
+
+    // Producst
+
+    products.forEach(async (product) => {
+        const { type, images, ...rest } = product
+
+        const productDB = await prisma.product.create({
+            data: {
+                ...rest,
+                categoryId: categoriesMap[type]
+            }
+        })
+
+        const imageData = images.map(image => ({
+            url: image,
+            productId: productDB.id
+        }))
+
+        await prisma.productImage.createMany({
+            data: imageData
+        })
+    })
     // Products
 
     // products.forEach( async(product) => {
@@ -59,7 +81,7 @@ async function main() {
     //            categoryId: categoriesMap[type]  
     //         }
     //     })
-        
+
     //     const imageData = images.map( image =>({
     //         url: image,
     //         productId: dbProduct.id
@@ -71,12 +93,12 @@ async function main() {
 
     // })
 
-        
+
 
     console.log('correctly executed seed');
 }
 
 (() => {
-    if ( process.env.NODE_ENV === 'production' ) return;
-    main()    
+    if (process.env.NODE_ENV === 'production') return;
+    main()
 })();

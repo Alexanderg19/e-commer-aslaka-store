@@ -1,2 +1,2 @@
 
-export * from './productInterface'
+export * from './product.interface'

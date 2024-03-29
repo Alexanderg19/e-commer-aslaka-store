@@ -1,14 +1,15 @@
 export interface Product {
+    id: string;
+    title: string;
     description: string;
-    images: string[];
     inStock: number;
     price: number;
     sizes: Sizes[];
     slug: string;
     tags: string[];
-    title: string;
-    type: Types;
+    //todo: type: Types;
     gender: Category
+    images: string[];
 }
 
 export type Category = 'men'|'women'|'kid'|'unisex';
